@@ -15,10 +15,10 @@ BeginPackage["Elasticsearch`"]
 (*Call management*)
 
 
-ESClient::usage="ESClient[options...] returns a client object with basic access settings. See Options[ESClient] for defaults"
+ESClient::usage="ESClient[options...] - returns a client object with basic access settings. See Options[ESClient] for defaults"
 
 
-ESCall::usage="ESCall[client, method, path, options...] is a general HTTP call based on the passed client and additional options given on the command line"
+ESCall::usage="ESCall[client, method, path, options...] - is a general HTTP call based on the passed client and additional options given on the command line"
 
 
 ESPost::usage="ESPost[client, path, body] - a simplified POST request. The body is an association that will be converted to the actual JSON payload required by ES"
@@ -31,16 +31,16 @@ ESGet::usage="ESGet[client, path] - simplified GET request"
 (*Queries*)
 
 
-ESQuery::usage="ESQuery[query] define the (top-level) query portion of a search"
+ESQuery::usage="ESQuery[query] - define the (top-level) query portion of a search"
 
 
-ESBoolQuery::usage="ESBoolQuery[boolGroups] combine multiple query types"
+ESBoolQuery::usage="ESBoolQuery[boolGroups] - combine multiple query types"
 
 
 ESBoolMust::usage ="ESBoolMust[conditions] - bool query condition must be satisfied"
 
 
-ESBoolMustNot::usage ="ESBoolMust[conditions] - bool query condition must not be satisfied"
+ESBoolMustNot::usage ="ESBoolMustNot[conditions] - bool query condition must not be satisfied"
 
 
 ESBoolShould::usage ="ESBoolMust[conditions] - bool query condition 'should' (or) be satisfied"
@@ -49,57 +49,57 @@ ESBoolShould::usage ="ESBoolMust[conditions] - bool query condition 'should' (or
 ESMatchAllQuery::usage ="ESMatchAllQuery[] - just that"
 
 
-ESTermQuery::usage="ESTermQuery[field, value] limit to documents where field=value"
+ESTermQuery::usage="ESTermQuery[field, value] - limit to documents where field=value"
 
 
-ESTermsQuery::usage="ESTermsQuery[field, list] shape a query for documents where 'field' matches the elements in 'list'"
+ESTermsQuery::usage="ESTermsQuery[field, list] - shape a query for documents where 'field' matches the elements in 'list'"
 
 
-ESRangeQuery::usage="ESRangeQuery[timestampField,from,to] limit query to the range specified"
+ESRangeQuery::usage="ESRangeQuery[timestampField,from,to] - limit query to the range specified"
 
 
 (* ::Subsection:: *)
 (*Aggregations*)
 
 
-ESAggs::usage="ESAggs[aggs] top level aggregation component"
+ESAggs::usage="ESAggs[aggs] - top level aggregation component"
 
 
 ESSubAggs::usage="ESSubAggs[agg, subAggs] - adds a sub aggregation to an existing aggregation and returns the full aggregation"
 
 
-ESCompositeAggregation::usage="ESCompositeAggregation[label, fields, afterKey, chunkSize] set up a paginated aggregation for documents that have the same values for the fields provided. It is sufficient to provide only the two first parameters when setting up a query. Subsequent queries will want 'afterKey' as provided in the response to start at the right spot."
+ESCompositeAggregation::usage="ESCompositeAggregation[label, fields, afterKey, chunkSize] - set up a paginated aggregation for documents that have the same values for the fields provided. It is sufficient to provide only the two first parameters when setting up a query. Subsequent queries will want 'afterKey' as provided in the response to start at the right spot."
 
 
-ESGetCompositeAfterKey::usage="ESGetCompositeAfterKey[resp,label] pulls out the key to start the next aggregation on. Returns Null if there is no such key (end of the aggregate)."
+ESGetCompositeAfterKey::usage="ESGetCompositeAfterKey[resp,label] - pulls out the key to start the next aggregation on. Returns Null if there is no such key (end of the aggregate)."
 
 
-ESGetAggregation::usage="ESGetAggregation[resp,label] returns the requested aggregation from a response."
+ESGetAggregation::usage="ESGetAggregation[resp,label] - returns the requested aggregation from a response."
 
 
-ESCardinalityAggregation::usage="ESCardinalityAggregation[label,field] count (estimate) the number of unique instances of 'field' in the reponse."
+ESCardinalityAggregation::usage="ESCardinalityAggregation[label,field] - count (estimate) the number of unique instances of 'field' in the reponse."
 
 
-ESSumAggregation::usage="ESSumAggregation[label,field] sum the values of 'field'"
+ESSumAggregation::usage="ESSumAggregation[label,field] - sum the values of 'field'"
 
 
-ESDateHistogramAggregation::usage="ESDateHistogramAggregation[label, field, interval, timeZone] bin counts into a date histogram"
+ESDateHistogramAggregation::usage="ESDateHistogramAggregation[label, field, interval, timeZone] - bin counts into a date histogram"
 
 
-ESTermsAggregation::usage="ESTermsAggregation[label, field, size] return the top 'size' documents based on the value in 'field'"
+ESTermsAggregation::usage="ESTermsAggregation[label, field, size] - return the top 'size' documents based on the value in 'field'"
 
 
 (* ::Subsection:: *)
 (*Miscellaneous*)
 
 
-ESSize::usage="ESSize[size] provide return size for query or aggregation"
+ESSize::usage="ESSize[size] - provide return size for query or aggregation"
 
 
-ToJSON::usage="ToJSON[association] exports the given association to JSON"
+ToJSON::usage="ToJSON[association] - exports the given association to JSON"
 
 
-ESGetAggregation::usage="ESGetAggregation[resp,label] returns the requested aggregation from a response."
+ESGetAggregation::usage="ESGetAggregation[resp,label] - returns the requested aggregation from a response."
 
 
 (* ::Section:: *)
