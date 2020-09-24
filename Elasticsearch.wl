@@ -113,9 +113,16 @@ Begin["`Private`"]
 (*Call management*)
 
 
-Options[ESClient]={"Domain"->"localhost","Port"->9200,"Scheme"->"http",
-"ContentType"->"application/json","Headers"->{"Accept"->"application/json"},
-"Username"->"","Password"->"","VerifySecurityCertificates"->True};
+Options[ESClient]={
+	"Domain"->"localhost",
+	"Port"->9200,
+	"Scheme"->"http",
+	"ContentType"->"application/json",
+	"Headers"->{"Accept"->"application/json"},
+	"Username"->"", (* Username and Password not used currently *)
+	"Password"->"",
+	"VerifySecurityCertificates"->True
+};
 
 
 ESClient[opts:OptionsPattern[]]:=<|Join[Options[ESClient],List[opts]]|>/.Association->List
