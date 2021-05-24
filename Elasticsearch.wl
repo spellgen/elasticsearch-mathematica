@@ -27,6 +27,15 @@ ESPost::usage="ESPost[client, path, body] - a simplified POST request. The body 
 ESGet::usage="ESGet[client, path] - simplified GET request"
 
 
+ESScrollStart::usage="ESScrollStart[client, path, body, timeout] - Run a search query as you would with ESPost - the timeout defaults to 1m"
+
+
+ESScrollId::usage="ESScrollId[res] - extracts the scroll id from a ESScrollStart call"
+
+
+ESScrollNext::usage="ESScrollNext[client, scrollId, timeout] - pull the next set of data in the scroll - timeout defaults to 1m"
+
+
 (* ::Subsection:: *)
 (*Queries*)
 
@@ -89,6 +98,15 @@ ESDateHistogramAggregation::usage="ESDateHistogramAggregation[label, field, inte
 ESTermsAggregation::usage="ESTermsAggregation[label, field, size] - return the top 'size' documents based on the value in 'field'"
 
 
+ESMaxAggregation::usage="ESMaxAggregation[label, field] - return the largest value of 'field' in the search"
+
+
+ESMinAggregation::usage="ESMinAggregation[label, field] - return the smallest value of 'field' in the search"
+
+
+ESValueCountAggregation::usage="ESValueCountAggregation[label,field] - count the number of documents which define this value"
+
+
 (* ::Subsection:: *)
 (*Miscellaneous*)
 
@@ -146,6 +164,18 @@ ESPost[ec_,path_,body_]:=ESCall[ec,"POST",path,"Body"->ExportString[body,"JSON"]
 
 
 ESGet[ec_,path_]:=ESCall[ec,"GET",path]
+
+
+(* ::Input::Initialization:: *)
+ESScrollStart[client_,path_,body_,timeout_:"1m"]:= ESPost[client,path<>"?scroll="<>timeout,body]
+
+
+(* ::Input::Initialization:: *)
+ESScrollId[res_]:=res["_scroll_id"]
+
+
+(* ::Input::Initialization:: *)
+ESScrollNext[client_,sid_,timeout_:"1m"]:=ESPost[client,"/_search/scroll",<|"scroll"->timeout,"scroll_id"->sid|>]
 
 
 (* ::Subsection:: *)
@@ -242,6 +272,19 @@ ESDateHistogramAggregation[label_,field_,interval_,timeZone_]:=label-><|
 ESTermsAggregation[label_,field_,size_]:=label-><|
 	"terms"-><|"field"->field, "size"->size|>
 |>
+
+
+ESMaxAggregation[label_, field_]:=label-><|
+	"max"-><|"field"->field|>
+|>
+
+
+ESMinAggregation[label_, field_]:=label-><|
+	"min"-><|"field"->field|>
+|>
+
+
+ESValueCountAggregation[label_,field_]:=label-><|"value_count" -> <|"field"->field|>|>
 
 
 (* ::Subsection:: *)
