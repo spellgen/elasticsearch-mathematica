@@ -3,21 +3,11 @@ Utilities for calling elasticsearch HTTP API from Mathematica
 
 ## Example call
 
-Create a client (ec) by overriding the defaults (definition shown below).
+Create a client (ec) by overriding the defaults (see the package). If username/password aren't defined you will be prompted for them on the first call.
 This example runs a search over some specific document terms and a date range (but returns no documents of the actual search).
 
 Aggregations are done per `user` in the index, further sub-aggregating on the range of `Timestamp` in the set.
 The output is an association where in this case `res["aggregations"]["user"]["buckets"]` will hold the data.
-
-    Options[ESClient] = {
-      "Domain" -> "localhost",
-      "Port" -> 9200, 
-      "Scheme" -> "http",
-      "ContentType" -> "application/json", 
-      "Headers" -> {"Accept" -> "application/json"},
-      "Username" -> "",
-      "Password" -> "", 
-      "VerifySecurityCertificates" -> True};
 
     ec = ESClient["Domain" -> "my-es-cluster.home.net", "Scheme" -> "https",
       "VerifySecurityCertificates" -> False];
