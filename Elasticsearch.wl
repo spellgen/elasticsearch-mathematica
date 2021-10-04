@@ -86,6 +86,9 @@ ESGetCompositeAfterKey::usage="ESGetCompositeAfterKey[resp,label] - pulls out th
 ESGetAggregation::usage="ESGetAggregation[resp,label] - returns the requested aggregation from a response."
 
 
+ESFilterAggregation::usage="ESFilterAggregation[label, field, value] - filter aggregation results (term like) on documents that has field=value."
+
+
 ESCardinalityAggregation::usage="ESCardinalityAggregation[label,field] - count (estimate) the number of unique instances of 'field' in the reponse."
 
 
@@ -250,6 +253,9 @@ ESGetCompositeAfterKey[resp_, label_]:=If[
 
 
 ESGetAggregation[resp_, label_]:=resp["aggregations"][label]["buckets"]
+
+
+ESFilterAggregation[label_,field_,value_]:=label-><|"filter"-><|"term"-><|field->value|>|>|>
 
 
 ESCardinalityAggregation[label_,field_]:=label-><|
