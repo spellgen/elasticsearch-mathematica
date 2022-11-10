@@ -67,6 +67,9 @@ ESTermsQuery::usage="ESTermsQuery[field, list] - shape a query for documents whe
 ESRangeQuery::usage="ESRangeQuery[timestampField,from,to] - limit query to the range specified"
 
 
+ESPrefixQuery::usage="ESPrefixQuery[field,prefix] - limit the query to documents where 'field' starts with 'prefix'"
+
+
 (* ::Subsection:: *)
 (*Aggregations*)
 
@@ -108,6 +111,9 @@ ESMinAggregation::usage="ESMinAggregation[label, field] - return the smallest va
 
 
 ESValueCountAggregation::usage="ESValueCountAggregation[label,field] - count the number of documents which define this value"
+
+
+ESAvgAggregation::usage="ESAvgAggregation[label,field] - mean of the specified field"
 
 
 (* ::Subsection:: *)
@@ -154,7 +160,7 @@ ESCall[client_, method_, path_, opts:OptionsPattern[]]:=Module[{req,combined,aut
 	req=HTTPRequest[path,
 		Append[
 			<|Method->ToUpperCase[method]|>,
-			FilterRules[combined,{"Domain","Port","Scheme","Query","Body","ContentType","Headers"}]
+			FilterRules[combined,{"Domain","Port","Scheme","Query","Body","ContentType","Headers","Username","Password"}]
 		], 
 		FilterRules[combined,Options[HTTPRequest]]/.List->Sequence
 	];
@@ -217,6 +223,9 @@ ESRangeQuery[timestampField_,from_,to_]:="range"-><|
 		"include_upper"->False
 	|>
 |>
+
+
+ESPrefixQuery[field_,prefix_]:="prefix"-><|field-><|"value"->prefix|>|>
 
 
 (* ::Subsection:: *)
@@ -291,6 +300,11 @@ ESMinAggregation[label_, field_]:=label-><|
 
 
 ESValueCountAggregation[label_,field_]:=label-><|"value_count" -> <|"field"->field|>|>
+
+
+ESAvgAggregation[label_,field_]:=label-><|
+	"avg"-><|"field"->field|>
+|>
 
 
 (* ::Subsection:: *)
