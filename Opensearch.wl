@@ -73,7 +73,13 @@ ESTermsQuery::usage="ESTermsQuery[field, list] - shape a query for documents whe
 ESRangeQuery::usage="ESRangeQuery[timestampField,from,to] - limit query to the range specified"
 
 
+ESRangeQueryGeneral::usage="ESRangeQueryGeneral[field, conditions] - present conditions as an association."
+
+
 ESPrefixQuery::usage="ESPrefixQuery[field,prefix] - limit the query to documents where 'field' starts with 'prefix'"
+
+
+ESExistsQuery::usage="ESExistsQuery[field] - does the field exist with a non-null value?"
 
 
 (* ::Subsection:: *)
@@ -96,6 +102,12 @@ ESGetAggregation::usage="ESGetAggregation[resp,label] - returns the requested ag
 
 
 ESFilterAggregation::usage="ESFilterAggregation[label, field, value] - filter aggregation results (term like) on documents that has field=value."
+
+
+ESFilterAggregationByQuery::usage="ESFilterAggregationByQuery[label, query] - any query will do"
+
+
+ESFiltersAggregation::usage"ESFiltersAggregations[label, queries] - (labeled) queries should be given as an association."
 
 
 ESCardinalityAggregation::usage="ESCardinalityAggregation[label,field] - count (estimate) the number of unique instances of 'field' in the reponse."
@@ -128,6 +140,9 @@ ESRangeAggregation::usage="ESRangeAggregation[label,field,ranges] - bucket aggre
 ESStatsAggregation::usage="ESStatsAggregation[label,field] - basic stats over the bucket values"
 
 
+ESPercentilesAggregation::usage"ESPercentilesAggregation[label, field, percents] - calculate (custom) percentiles over the given field"
+
+
 (* ::Subsection:: *)
 (*Miscellaneous*)
 
@@ -138,7 +153,7 @@ ESSize::usage="ESSize[size] - provide return size for query or aggregation"
 ToJSON::usage="ToJSON[association] - exports the given association to JSON"
 
 
-ESGetAggregation::usage="ESGetAggregation[resp,label] - returns the requested aggregation from a response."
+DateRangeQuery::usage="DateRangeQuery[range] - Build a range query from a range described with start, end, timezoneS"
 
 
 (* ::Section:: *)
@@ -237,7 +252,13 @@ ESRangeQuery[timestampField_,from_,to_]:="range"-><|
 |>
 
 
+ESRangeQueryGeneral[field_,condition_:Association]:="range"-><|field->condition|>
+
+
 ESPrefixQuery[field_,prefix_]:="prefix"-><|field-><|"value"->prefix|>|>
+
+
+ESExistsQuery[field_]:="exists"-><|"field"->field|>
 
 
 (* ::Subsection:: *)
@@ -277,6 +298,12 @@ ESGetAggregation[resp_, label_]:=resp["aggregations"][label]["buckets"]
 
 
 ESFilterAggregation[label_,field_,value_]:=label-><|"filter"-><|"term"-><|field->value|>|>|>
+
+
+ESFilterAggregationByQuery[label_,query_]:=label-><|"filter"-><|query|>|>
+
+
+ESFiltersAggregation[label_,queries_]:=label-><|"filters"-><|"filters"->queries|>|>
 
 
 ESCardinalityAggregation[label_,field_]:=label-><|
@@ -330,6 +357,9 @@ ESStatsAggregation[label_,field_]:=label-><|
 "stats"-><|"field"->field|>|>
 
 
+ESPercentilesAggregation[label_,field_,percents_]:=label-><|"percentiles"-><|"field"->field,"percents"->percents|>|>
+
+
 (* ::Subsection:: *)
 (*Miscellaneous*)
 
@@ -338,6 +368,12 @@ ESSize[n_Integer]:="size"->n
 
 
 ToJSON[assoc_]:=ExportString[assoc,"JSON"]
+
+
+DateRangeQuery[range_]:=ESRangeQuery["Timestamp",
+	UnixTime[DateObject[range["start"],TimeZone->range["timezone"]]]*1000,
+	UnixTime[DateObject[range["end"],TimeZone->range["timezone"]]]*1000
+]
 
 
 (* ::Section:: *)
